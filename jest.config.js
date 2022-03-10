@@ -3,12 +3,9 @@ module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'jsdom',
   transform: {
-    '^.+\\.vue$': 'vue-jest',
-    '^.+\\.ts$': 'ts-jest'
+    '^.+\\.vue$': 'vue-jest', // vue 文件用 vue-jest 转换
+    '^.+\\.ts$': 'ts-jest' // ts 文件用 ts-jest 转换
   },
-  // 匹配 __tests__ 目录下的 .js/.ts 文件 或 xx.test.js/ts xx.spec.js/ts
-  testRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.(js|ts)$',
-  moduleNameMapper: {
-    '^@/(.*)$': '<rootDir>/src/$1' // 配置 jest 下 @ -> src
-  }
+  // 匹配 __tests__ 目录下的 .js/.ts 文件 或其他目录下的 xx.test.js/ts xx.spec.js/ts
+  testRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.(ts)$'
 }

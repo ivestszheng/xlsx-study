@@ -9,7 +9,7 @@
     "format": "prettier --write ./src",
     "lint": "eslint ./src --ext .vue,.js,.ts",
     "lint-fix": "eslint --fix ./src --ext .vue,.js,.ts",
-    "test:unit": "vue-cli-service test:unit"
+    "test": "jest"
   },
   "lint-staged": {
     "*.{vue,js,ts}": "eslint --fix"
