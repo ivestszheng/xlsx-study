@@ -50,3 +50,8 @@ npm run lint-fix
 ```
 npx cz
 ```
+
+### Check dependencies 
+```
+npx depcheck
+```
