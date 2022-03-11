@@ -6,9 +6,9 @@
 </template>
 
 <script lang="ts">
-import { reactive } from '@vue/composition-api'
+import { reactive,defineComponent } from '@vue/composition-api'
 
-export default {
+export default defineComponent({
   setup() {
     const state = reactive({
       count: 0
@@ -18,7 +18,7 @@ export default {
     }
     return { state, addCount }
   }
-}
+})
 </script>
 
 <style lang="less" scoped>
