@@ -39,7 +39,6 @@ npm install jest --global
 ### Format code manually.
 
 ```
-npm run lint
 npm run format
 npm run lint-fix
 ```

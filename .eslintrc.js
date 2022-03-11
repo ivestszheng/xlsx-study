@@ -1,15 +1,17 @@
 module.exports = {
     "env": {
         "browser": true,
+        "node": true,
         "es2021": true
     },
     "extends": [
         'airbnb-base',
-        "plugin:vue/essential",
+        'eslint:recommended',
         "plugin:@typescript-eslint/recommended",
         'plugin:jest/recommended',
         'prettier'
     ],
+    "parser": "vue-eslint-parser",
     "parserOptions": {
         "ecmaVersion": "latest",
         "parser": "@typescript-eslint/parser",
@@ -19,6 +21,11 @@ module.exports = {
         "vue",
         "@typescript-eslint"
     ],
-    "rules": {
+    "settings": {
+        "import/resolver": {
+            "webpack": {
+                "config": "webpack.common.js"
+            }
+        }
     }
 }
