@@ -24,19 +24,14 @@ npm run build
 npm run test
 ```
 
-### Test single file
+### Run single Test
 make sure in `tests -> unit`
 ```
 cd .\tests\unit
 ```
+test your file
 ```
 npx jest [yourFilePath like .\example.spec.ts]
-```
-
-To use this commad,you need to install jest global firstly.
-
-```
-npm install jest --global
 ```
 
 ### Format code manually.
