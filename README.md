@@ -25,9 +25,12 @@ npm run test
 ```
 
 ### Test single file
-
+make sure in `tests -> unit`
 ```
-jest [your file]
+cd .\tests\unit
+```
+```
+npx jest [yourFilePath like .\example.spec.ts]
 ```
 
 To use this commad,you need to install jest global firstly.
