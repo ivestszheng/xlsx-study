@@ -27,5 +27,8 @@ module.exports = {
                 "config": "webpack.common.js"
             }
         }
+    },
+    "rules": {
+        "@typescript-eslint/no-explicit-any": ["off"]
     }
 }
