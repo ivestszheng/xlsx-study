@@ -3,11 +3,12 @@
 </template>
 
 <script lang='ts'>
-import { useAxiosGet } from '@/api/example'
+import { useAxiosGet,useAxiosPost } from '@/api/example'
 
 export default {
    setup() {
-      useAxiosGet({ type: 2 }).then((res: unknown) => { console.log(res) })
+      useAxiosGet({ type: 2 }).then((res: unknown) => { console.log('get',res) })
+      useAxiosPost({ type: 2 }).then((res: unknown) => { console.log('post',res) })
    }
 }
 </script>
