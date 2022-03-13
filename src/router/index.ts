@@ -18,6 +18,11 @@ const routes: Array<RouteConfig> = [
     path: '/compositionApi',
     name: 'compositionApi',
     component: () => import('@/views/CompositionApi.vue')
+  },
+  {
+    path: '/axiosUse',
+    name: 'axiosUse',
+    component: () => import('@/views/AxiosUse.vue')
   }
 ];
 
