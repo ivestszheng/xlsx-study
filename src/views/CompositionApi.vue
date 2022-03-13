@@ -1,22 +1,42 @@
 <template>
   <div class="hello">
-    <h1>{{ state.count }}</h1>
-    <button @click="addCount">add</button>
+    <h1>{{ store.count }}</h1>
+    <h1>{{ store.name }}</h1>
+    <h1>{{ store.phoneHidden }}</h1>
+    <!-- <button @click="fn1">fn1</button> -->
+    <!-- <button @click="fn2">fn2</button> -->
+    <!-- <button @click="fn3">fn3</button> -->
+    <button @click="store.increment">add</button>
   </div>
 </template>
 
 <script lang="ts">
-import { reactive,defineComponent } from '@vue/composition-api'
+import { defineComponent } from '@vue/composition-api';
+import { mainStore } from '@/store';
 
 export default defineComponent({
   setup() {
-    const state = reactive({
-      count: 0
-    })
-    const addCount = () => {
-      state.count += 1
+    const store = mainStore();
+    // change Pinia data
+    // method 1
+    const fn1 = () => {
+      store.count += 1
     }
-    return { state, addCount }
+    // method 2 - 适合于多数据状态的改变（经过优化）
+    const fn2 = () => {
+      store.$patch({
+        count: store.count += 1,
+        name: store.name === '小红' ? '小黑' : '小绿'
+      })
+    }
+    // method 3 - $patch 传递函数
+    const fn3 = () => {
+      store.$patch(state => {
+        state.count += 1
+        state.name = store.name === '小红' ? '小黑' : '小绿'
+      })
+    }
+    return { store, fn1, fn2, fn3 };
   }
-})
+});
 </script>

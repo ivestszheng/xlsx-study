@@ -29,6 +29,7 @@ module.exports = {
         }
     },
     "rules": {
+        "@typescript-eslint/no-explicit-any": ["off"],
         "import/extensions": [
             "error",
             "ignorePackages",
@@ -37,6 +38,17 @@ module.exports = {
                 "jsx": "never",
                 "ts": "never",
                 "tsx": "never"
+            }
+        ],
+        "no-param-reassign": [
+            "error",
+            {
+                "props": true,
+                "ignorePropertyModificationsFor": [
+                    "res", // for Express responses
+                    "item", // for Express responses
+                    "state" // for vuex state 解决assignment to property of function parameter 'state'
+                ]
             }
         ]
     }
