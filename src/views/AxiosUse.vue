@@ -13,6 +13,6 @@ export default {
     useAxiosPost({ type: 2 }).then((res: unknown) => {
       console.log('post', res);
     });
-  }
+  },
 };
 </script>

@@ -20,23 +20,28 @@ export default defineComponent({
     // change Pinia data
     // method 1
     const fn1 = () => {
-      store.count += 1
-    }
+      store.count += 1;
+    };
     // method 2 - 适合于多数据状态的改变（经过优化）
     const fn2 = () => {
       store.$patch({
-        count: store.count += 1,
-        name: store.name === '小红' ? '小黑' : '小绿'
-      })
-    }
+        count: (store.count += 1),
+        name: store.name === '小红' ? '小黑' : '小绿',
+      });
+    };
     // method 3 - $patch 传递函数
     const fn3 = () => {
-      store.$patch(state => {
-        state.count += 1
-        state.name = store.name === '小红' ? '小黑' : '小绿'
-      })
-    }
-    return { store, fn1, fn2, fn3 };
-  }
+      store.$patch((state) => {
+        state.count += 1;
+        state.name = store.name === '小红' ? '小黑' : '小绿';
+      });
+    };
+    return {
+      store,
+      fn1,
+      fn2,
+      fn3,
+    };
+  },
 });
 </script>

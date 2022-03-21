@@ -7,29 +7,29 @@ Vue.use(VueRouter);
 const routes: Array<RouteConfig> = [
   {
     path: '/',
-    redirect: '/home'
+    redirect: '/home',
   },
   {
     path: '/home',
     name: 'home',
-    component: HomeView
+    component: HomeView,
   },
   {
     path: '/compositionApi',
     name: 'compositionApi',
-    component: () => import('@/views/CompositionApi.vue')
+    component: () => import('@/views/CompositionApi.vue'),
   },
   {
     path: '/axiosUse',
     name: 'axiosUse',
-    component: () => import('@/views/AxiosUse.vue')
-  }
+    component: () => import('@/views/AxiosUse.vue'),
+  },
 ];
 
 const router = new VueRouter({
   mode: 'hash',
   base: process.env.BASE_URL,
-  routes
+  routes,
 });
 
 export default router;

@@ -4,19 +4,18 @@ import axios from 'axios';
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_URL, // url = base url + request url
   // withCredentials: true, // send cookies when cross-domain requests
-  timeout: 5000 // request timeout
+  timeout: 5000, // request timeout
 });
 
 // request interceptor
 service.interceptors.request.use(
-  config =>
-    // do something before request is sent
-    config,
-  error => {
+  // do something before request is sent
+  (config) => config,
+  (error) => {
     // do something with request error
     console.log(error); // for debug
     return Promise.reject(error);
-  }
+  },
 );
 
 // response interceptor
@@ -31,16 +30,16 @@ service.interceptors.response.use(
    * Here is just an example
    * You can also judge the status by HTTP Status Code
    */
-  response => {
+  (response) => {
     const { data } = response;
 
     return data;
   },
-  error => {
+  (error) => {
     console.log(`err${error}`); // for debug
 
     return Promise.reject(error);
-  }
+  },
 );
 
 export default service;
