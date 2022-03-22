@@ -7,6 +7,7 @@ module.exports = {
   extends: [
     'airbnb-base',
     'eslint:recommended',
+    'plugin:vue/recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:jest/recommended',
   ],
@@ -47,6 +48,15 @@ module.exports = {
           'item', // for Express responses
           'state', // for vuex state 解决assignment to property of function parameter 'state'
         ],
+      },
+    ],
+    indent: [2, 2, {
+      SwitchCase: 1,
+    }],
+    complexity: [
+      'error',
+      {
+        max: 40,
       },
     ],
   },
