@@ -69,8 +69,6 @@ npm run format
 npm run lint-fix
 ```
 
-> You rearely need to format code by yourself.ESlint and Prettier will help you automatically.
-
 ### Use commitizen
 
 ```
