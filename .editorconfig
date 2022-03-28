@@ -1,2 +1,2 @@
 [*.{js,jsx,ts,tsx,vue}]
-end_of_line = lf
+end_of_line = crlf

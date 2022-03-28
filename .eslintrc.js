@@ -60,5 +60,6 @@ module.exports = {
         max: 40,
       },
     ],
+    'linebreak-style': 0,
   },
 };
