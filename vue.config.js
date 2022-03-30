@@ -8,4 +8,5 @@ module.exports = defineConfig({
     // 配置别名后需要重启项目
     config.resolve.alias.set('@', path.resolve('src'));
   },
+  publicPath: './',
 });
