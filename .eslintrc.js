@@ -48,6 +48,7 @@ module.exports = {
           'res', // for Express responses
           'item', // for Express responses
           'state', // for vuex state 解决assignment to property of function parameter 'state'
+          'args', // for vue.config 解决 修改项目名称
         ],
       },
     ],
