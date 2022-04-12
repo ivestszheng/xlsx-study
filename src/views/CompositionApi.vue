@@ -6,9 +6,7 @@
     <!-- <button @click="fn1">fn1</button> -->
     <!-- <button @click="fn2">fn2</button> -->
     <!-- <button @click="fn3">fn3</button> -->
-    <button @click="store.increment">
-      add
-    </button>
+    <button @click="store.increment">add</button>
   </div>
 </template>
 

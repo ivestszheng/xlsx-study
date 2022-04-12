@@ -10,6 +10,7 @@ module.exports = {
     'plugin:vue/recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:jest/recommended',
+    'plugin:prettier/recommended', // 添加 prettier 插件
   ],
   parser: 'vue-eslint-parser',
   parserOptions: {
@@ -17,10 +18,7 @@ module.exports = {
     parser: '@typescript-eslint/parser',
     sourceType: 'module',
   },
-  plugins: [
-    'vue',
-    '@typescript-eslint',
-  ],
+  plugins: ['vue', '@typescript-eslint'],
   settings: {
     'import/resolver': {
       webpack: {
@@ -52,9 +50,13 @@ module.exports = {
         ],
       },
     ],
-    indent: [2, 2, {
-      SwitchCase: 1,
-    }],
+    indent: [
+      2,
+      2,
+      {
+        SwitchCase: 1,
+      },
+    ],
     complexity: [
       'error',
       {

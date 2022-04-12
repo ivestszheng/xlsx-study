@@ -15,7 +15,7 @@ service.interceptors.request.use(
     // do something with request error
     console.log(error); // for debug
     return Promise.reject(error);
-  },
+  }
 );
 
 // response interceptor
@@ -39,7 +39,7 @@ service.interceptors.response.use(
     console.log(`err${error}`); // for debug
 
     return Promise.reject(error);
-  },
+  }
 );
 
 export default service;
