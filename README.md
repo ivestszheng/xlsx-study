@@ -65,7 +65,6 @@ npx jest [FilePath like .\example.spec.ts]
 ### Format code manually.
 
 ```
-npm run format
 npm run lint-fix
 ```
 
