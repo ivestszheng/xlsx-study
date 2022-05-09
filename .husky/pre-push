@@ -1,4 +1,5 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-npm run test
+# 如果有单元测试，可以执行这个命令
+# npm run test

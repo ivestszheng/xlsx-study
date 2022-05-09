@@ -11,18 +11,23 @@ const routes: Array<RouteConfig> = [
   },
   {
     path: '/home',
-    name: 'home',
+    name: 'Home',
     component: HomeView,
   },
   {
     path: '/compositionApi',
-    name: 'compositionApi',
+    name: 'CompositionApi',
     component: () => import('@/views/CompositionApi.vue'),
   },
   {
     path: '/axiosUse',
-    name: 'axiosUse',
+    name: 'AxiosUse',
     component: () => import('@/views/AxiosUse.vue'),
+  },
+  {
+    path: '/lessMixin',
+    name: 'LessMixin',
+    component: () => import('@/views/LessMixin.vue'),
   },
 ];
 

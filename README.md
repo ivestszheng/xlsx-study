@@ -17,7 +17,7 @@ Vue2 typescript starter template using composition-api.
 - [`less`](https://github.com/less/less.js) - A backwards-compatible language extension for CSS
 - [`eslint`](https://github.com/eslint/eslint) - A tool for identifying and reporting on patterns found in ECMAScript/JavaScript code
 - [`prettier`](https://github.com/prettier/prettier) - An opinionated code formatter
-- [`lint-staged`](https://github.com/okonet/lint-staged) - Run *linters* on git *staged* files
+- [`lint-staged`](https://github.com/okonet/lint-staged) - Run _linters_ on git _staged_ files
 - [`jest`](https://github.com/facebook/jest) - A comprehensive JavaScript testing solution.
 - [`husky` ](https://github.com/typicode/husky)- Modern native Git hooks made easy
 - [`dep-check`](https://github.com/depcheck/depcheck) - A tool for analyzing the dependencies in a project to see
@@ -75,9 +75,8 @@ npm run lint-fix
 npx cz
 ```
 
-### Check dependencies 
+### Check dependencies
 
 ```
 npx depcheck
 ```
-

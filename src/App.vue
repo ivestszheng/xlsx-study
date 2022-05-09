@@ -1,8 +1,8 @@
 <template>
   <div id="app">
     <nav>
-      <router-link to="/home"> Home </router-link>|
-      <router-link to="/compositionApi"> CompositionApi </router-link>
+      <router-link to="/home"> Home </router-link>| <router-link to="/compositionApi"> CompositionApi </router-link>|
+      <router-link to="/lessMixin"> LessMixin </router-link>
     </nav>
     <router-view />
   </div>
