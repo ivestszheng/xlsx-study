@@ -12,7 +12,7 @@ function addStyleResource(rule) {
 }
 
 module.exports = defineConfig({
-  transpileDependencies: true,
+  publicPath: './',
   chainWebpack: (config) => {
     // 修改项目名称
     config.plugin('html').tap((args) => {
@@ -25,5 +25,4 @@ module.exports = defineConfig({
     const types = ['vue-modules', 'vue', 'normal-modules', 'normal'];
     types.forEach((type) => addStyleResource(config.module.rule('less').oneOf(type)));
   },
-  publicPath: './',
 });
