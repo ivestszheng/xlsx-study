@@ -14,21 +14,6 @@ const routes: Array<RouteConfig> = [
     name: 'Home',
     component: HomeView,
   },
-  {
-    path: '/compositionApi',
-    name: 'CompositionApi',
-    component: () => import('@/views/CompositionApi.vue'),
-  },
-  {
-    path: '/axiosUse',
-    name: 'AxiosUse',
-    component: () => import('@/views/AxiosUse.vue'),
-  },
-  {
-    path: '/lessMixin',
-    name: 'LessMixin',
-    component: () => import('@/views/LessMixin.vue'),
-  },
 ];
 
 const router = new VueRouter({
