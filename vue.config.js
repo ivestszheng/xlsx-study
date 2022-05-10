@@ -12,6 +12,7 @@ function addStyleResource(rule) {
 }
 
 module.exports = defineConfig({
+  productionSourceMap: false, // 去除生产环境的 productionSourceMap
   publicPath: './',
   chainWebpack: (config) => {
     // 修改项目名称
