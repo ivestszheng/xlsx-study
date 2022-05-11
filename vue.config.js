@@ -17,7 +17,7 @@ module.exports = defineConfig({
   chainWebpack: (config) => {
     // 修改项目名称
     config.plugin('html').tap((args) => {
-      args[0].title = 'vue2初始模板'; // 项目名称
+      args[0].title = 'xlsx-study'; // 项目名称
       return args;
     });
     // 配置别名

@@ -7,27 +7,12 @@ Vue.use(VueRouter);
 const routes: Array<RouteConfig> = [
   {
     path: '/',
-    redirect: '/home',
+    redirect: '/demo',
   },
   {
-    path: '/home',
-    name: 'Home',
-    component: HomeView,
-  },
-  {
-    path: '/compositionApi',
-    name: 'CompositionApi',
-    component: () => import('@/views/CompositionApi.vue'),
-  },
-  {
-    path: '/axiosUse',
-    name: 'AxiosUse',
-    component: () => import('@/views/AxiosUse.vue'),
-  },
-  {
-    path: '/lessMixin',
-    name: 'LessMixin',
-    component: () => import('@/views/LessMixin.vue'),
+    path: '/demo',
+    name: 'Demo',
+    component: () => import('@/views/Demo/index.vue'),
   },
 ];
 
