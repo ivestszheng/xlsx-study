@@ -70,7 +70,41 @@ $ npm i xlsx@0.16.9
 
 ## 前端导入 Excel 数据
 
+```js
+/**
+ * 将 file 转为一个 CSF 的 JSON
+ * @param {File} file
+ * @returns JSON - CSF
+ */
+const analyseExcelToJson = (file) => {
+  return new Promise((resolve, reject) => {
+    if (file instanceof File) {
+      const reader = new FileReader();
+
+      reader.onloadend = (progressEvent) => {
+        const arrayBuffer = reader.result;
+
+        const options = { type: 'array' };
+        const workbook = XLSX.read(arrayBuffer, options);
+
+        const sheetName = workbook.SheetNames;
+        const sheet = workbook.Sheets[sheetName];
+
+        resolve(sheet);
+      };
+      reader.readAsArrayBuffer(file);
+    } else {
+      reject(new Error('入参不是 File 类型'));
+    }
+  });
+};
+```
+
 ## 前端导出 Excel 文件
+
+## Demo
+
+**[GitHub: ivestszheng/xlsx-study](https://github.com/ivestszheng/xlsx-study)**
 
 ## 参考
 

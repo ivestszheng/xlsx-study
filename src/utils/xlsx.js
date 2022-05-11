@@ -1,7 +1,11 @@
 import XLSX from 'xlsx';
 
-// 可接收参数 file 或 存有 file 的数组
-// FileReader 是异步读取方法，所以这里和 Promise 结合使用
+/**
+ * 将 file 转为一个 CSF 的 JSON
+ * @param {File} file
+ * @returns JSON - CSF
+ * FileReader 是异步读取方法，所以这里和 Promise 结合使用
+ */
 const analyseExcelToJson = (file) => {
   return new Promise((resolve, reject) => {
     if (file instanceof File) {
@@ -20,7 +24,7 @@ const analyseExcelToJson = (file) => {
       };
       reader.readAsArrayBuffer(file);
     } else {
-      reject(new Error('传参不是 File 类型'));
+      reject(new Error('入参不是 File 类型'));
     }
   });
 };

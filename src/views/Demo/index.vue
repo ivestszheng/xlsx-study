@@ -5,9 +5,11 @@
       class="upload-demo"
       action="#"
       multiple
+      :limit="3"
       :before-upload="beforeExcelUpload"
       :on-preview="handlePreview"
       :on-remove="handleRemove"
+      :on-exceed="handleOnExceed"
       :file-list="fileList"
       :auto-upload="true"
       :http-request="handleHttpRequest"
@@ -16,6 +18,7 @@
       <el-button style="margin-left: 10px" size="small" type="success" @click="analyseUpload">读取数据</el-button>
       <div slot="tip" class="el-upload__tip">在根目录下有一个 Demo.xlsx</div>
     </el-upload>
+    <div ref="container" class="container"></div>
   </div>
 </template>
 
@@ -38,6 +41,7 @@ export default {
       const promises = this.fileList.map(({ file }) => analyseExcelToJson(file));
       const result = await Promise.all(promises);
       console.log(result);
+      this.$refs.container.innerHTML = JSON.stringify(this.fileList);
     },
     // 文件列表移除文件时的钩子
     handleRemove(file) {
@@ -74,6 +78,15 @@ export default {
       }
       return true;
     },
+    // 文件超出个数限制时的钩子
+    handleOnExceed() {
+      this.$message('文件超出个数限制');
+    },
   },
 };
 </script>
+<style lang="less" scoped>
+.container {
+  margin-top: 50px;
+}
+</style>
