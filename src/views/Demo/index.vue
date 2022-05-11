@@ -14,26 +14,30 @@
     >
       <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
       <el-button style="margin-left: 10px" size="small" type="success" @click="analyseUpload">读取数据</el-button>
-      <div slot="tip" class="el-upload__tip">在根目录下有一个 Demo.excel</div>
+      <div slot="tip" class="el-upload__tip">在根目录下有一个 Demo.xlsx</div>
     </el-upload>
   </div>
 </template>
 
 <script>
-import { analyseExcel } from '@/utils/xlsx';
+import { analyseExcelToJson } from '@/utils/xlsx';
 
 export default {
   name: 'ImportExcel',
   data() {
     return {
       fileList: [],
+      result: [],
     };
   },
   methods: {
-    analyseUpload() {
+    async analyseUpload() {
+      if (!this.fileList.length) return;
       console.log('读取数据');
-      console.log(this.fileList);
-      analyseExcel();
+
+      const promises = this.fileList.map(({ file }) => analyseExcelToJson(file));
+      const result = await Promise.all(promises);
+      console.log(result);
     },
     // 文件列表移除文件时的钩子
     handleRemove(file) {

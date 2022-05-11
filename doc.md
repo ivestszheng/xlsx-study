@@ -25,6 +25,15 @@
 
 ## SheetJS/js-xlsx
 
+### 安装
+
+```
+$ yarn add xlsx@0.16.9
+$ npm i xlsx@0.16.9
+```
+
+建议跟上版本号，我第一次装的时候没跟上版本号没有安装成功。
+
 ### 常用的数据表格式(Common Spreadsheet Format)
 
 `js-xlsx`符合常用的数据表格式(CSF)。
