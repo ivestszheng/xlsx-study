@@ -35,7 +35,7 @@ const generateExcelBySheet = (sheet) => {
 };
 
 /**
- *
+ * 将 CSF 格式的 sheet数组导出 excel 文件
  * @param {Array} sheets sheet的集合
  * @param {String} fileName 下载时文件名称
  */
@@ -54,7 +54,7 @@ const exportExcelBySheets = (sheets, fileName = 'example.xlsx') => {
 };
 
 /**
- *
+ * 将二维数组的 sheet 数据导出 Excel 文件
  * @param {Array} workSheetData 二维数组
  * @param {String} fileName 下载时文件名称
  */
@@ -66,5 +66,15 @@ const exportExcelByDoubleDimensArray = (workSheetData, fileName = 'example.xlsx'
   XLSX.utils.book_append_sheet(workbook, ws, workSheetName);
   return XLSX.writeFile(workbook, fileName, { type: 'binary' });
 };
+/**
+ * 将 table 转换成 Excel 导出
+ * @param {*} el table 的 dom 节点
+ * @param {*} fileName 下载时文件名称
+ */
+const exportExcelByTable = (el, fileName = 'example.xlsx') => {
+  if (!el) {
+    throw new Error('没有获取到表格节点');
+  }
+};
 
-export { analyseExcelToJson, exportExcelBySheets, generateExcelBySheet, exportExcelByDoubleDimensArray };
+export { analyseExcelToJson, exportExcelBySheets, generateExcelBySheet, exportExcelByDoubleDimensArray, exportExcelByTable };
