@@ -1,8 +1,8 @@
 <template>
   <div id="app">
     <nav>
-      <router-link to="/demo">导入 Excel 数据</router-link> |
-      <router-link to="/compositionApi">导出 Excel 文件</router-link>
+      <router-link to="/import">导入 Excel 数据</router-link> |
+      <router-link to="/export">导出 Excel 文件</router-link>
     </nav>
     <router-view />
   </div>

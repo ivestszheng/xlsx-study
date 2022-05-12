@@ -1,18 +1,23 @@
 import Vue from 'vue';
 import VueRouter, { RouteConfig } from 'vue-router';
-import HomeView from '../views/HomeView.vue';
+import HomeView from '@/views/Import.vue';
 
 Vue.use(VueRouter);
 
 const routes: Array<RouteConfig> = [
   {
     path: '/',
-    redirect: '/demo',
+    redirect: '/import',
   },
   {
-    path: '/demo',
-    name: 'Demo',
-    component: () => import('@/views/Demo/index.vue'),
+    path: '/import',
+    name: 'Import',
+    component: HomeView,
+  },
+  {
+    path: '/export',
+    name: 'Export',
+    component: () => import('@/views/Export.vue'),
   },
 ];
 

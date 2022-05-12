@@ -34,8 +34,37 @@ const generateExcelBySheet = (sheet) => {
   return XLSX.utils.sheet_to_html(sheet);
 };
 
-const exportExcelBySheets = () => {
-  console.log(123);
+/**
+ *
+ * @param {Array} sheets sheet的集合
+ * @param {String} fileName 下载时文件名称
+ */
+const exportExcelBySheets = (sheets, fileName = 'example.xlsx') => {
+  const SheetNames = [];
+  const Sheets = {};
+  const workbook = { SheetNames, Sheets };
+
+  sheets.forEach((sheet, i) => {
+    const name = `sheet${i + 1}`;
+    SheetNames.push(name);
+    Sheets[name] = sheet;
+  });
+
+  return XLSX.writeFile(workbook, fileName, { type: 'binary' });
 };
 
-export { analyseExcelToJson, exportExcelBySheets, generateExcelBySheet };
+/**
+ *
+ * @param {Array} workSheetData 二维数组
+ * @param {String} fileName 下载时文件名称
+ */
+const exportExcelByDoubleDimensArray = (workSheetData, fileName = 'example.xlsx') => {
+  const ws = XLSX.utils.aoa_to_sheet(workSheetData);
+  const workSheetName = 'MySheet';
+  const workbook = XLSX.utils.book_new();
+
+  XLSX.utils.book_append_sheet(workbook, ws, workSheetName);
+  return XLSX.writeFile(workbook, fileName, { type: 'binary' });
+};
+
+export { analyseExcelToJson, exportExcelBySheets, generateExcelBySheet, exportExcelByDoubleDimensArray };

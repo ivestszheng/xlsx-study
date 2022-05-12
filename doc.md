@@ -187,6 +187,54 @@ const analyseExcelToJson = (file) => {
 
 前端在写前端导入 Excel 数据方法，最后返回的其实是`workbook`中`sheet`的集合。那么导出 Excel 文件便是将`sheet`拼成一个`workbook`导出即可。另外，导出的难点在于写成 Excel 之后要立马下载，而`XLSX.writeFile`直接帮我们实现这一步了。
 
+```js
+/**
+ *
+ * @param {Array} sheets sheet的集合
+ * @param {String} fileName 下载时文件名称
+ */
+const exportExcelBySheets = (sheets, fileName = 'example.xlsx') => {
+  const SheetNames = [];
+  const Sheets = {};
+  const workbook = { SheetNames, Sheets };
+
+  sheets.forEach((sheet, i) => {
+    const name = `sheet${i + 1}`;
+    SheetNames.push(name);
+    Sheets[name] = sheet;
+  });
+
+  return XLSX.writeFile(workbook, fileName, { type: 'binary' });
+};
+```
+
+假设数据并非`CSF`而是如下的二维数组：
+
+```js
+const ddArray = [
+  ['S', 'h', 'e', 'e', 't', 'J', 'S'],
+  [1, 2, 3, 4, 5],
+];
+```
+
+可以使用方法如下：
+
+```js
+/**
+ *
+ * @param {Array} workSheetData 二维数组
+ * @param {String} fileName 下载时文件名称
+ */
+const exportExcelByDoubleDimensArray = (workSheetData, fileName = 'example.xlsx') => {
+  const ws = XLSX.utils.aoa_to_sheet(workSheetData);
+  const workSheetName = 'MySheet';
+  const workbook = XLSX.utils.book_new();
+
+  XLSX.utils.book_append_sheet(workbook, ws, workSheetName);
+  return XLSX.writeFile(workbook, fileName, { type: 'binary' });
+};
+```
+
 ### 页面表格导出 Excel
 
 ## Demo

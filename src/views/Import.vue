@@ -1,5 +1,5 @@
 <template>
-  <div class="demo">
+  <div class="import-excel">
     <el-upload
       ref="upload"
       class="upload-demo"
@@ -55,7 +55,7 @@ export default {
         return;
       }
       this.$message.success('单纯为了演示，这里只导出读取的第一个Excel哦');
-      exportExcelBySheets();
+      exportExcelBySheets(this.result[0]);
     },
     // 文件列表移除文件时的钩子
     handleRemove(file) {
