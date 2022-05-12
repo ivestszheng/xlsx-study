@@ -1,9 +1,11 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 import XLSX from 'xlsx';
 
 /**
  * 将 file 转为一个 CSF 的 JSON
  * @param {File} file
- * @returns JSON - CSF
+ * @returns sheets
  * FileReader 是异步读取方法，所以这里和 Promise 结合使用
  */
 const analyseExcelToJson = (file) => {
@@ -17,10 +19,9 @@ const analyseExcelToJson = (file) => {
         const options = { type: 'array' };
         const workbook = XLSX.read(arrayBuffer, options);
 
-        const sheetName = workbook.SheetNames;
-        const sheet = workbook.Sheets[sheetName];
-
-        resolve(sheet);
+        const sheetNames = workbook.SheetNames;
+        const result = sheetNames.map((sheetName) => workbook.Sheets[sheetName]);
+        resolve(result);
       };
       reader.readAsArrayBuffer(file);
     } else {
@@ -29,5 +30,12 @@ const analyseExcelToJson = (file) => {
   });
 };
 
-// eslint-disable-next-line import/prefer-default-export
-export { analyseExcelToJson };
+const generateExcelBySheet = (sheet) => {
+  return XLSX.utils.sheet_to_html(sheet);
+};
+
+const exportExcelBySheets = () => {
+  console.log(123);
+};
+
+export { analyseExcelToJson, exportExcelBySheets, generateExcelBySheet };
