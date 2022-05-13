@@ -66,15 +66,20 @@ const exportExcelByDoubleDimensArray = (workSheetData, fileName = 'example.xlsx'
   XLSX.utils.book_append_sheet(workbook, ws, workSheetName);
   return XLSX.writeFile(workbook, fileName, { type: 'binary' });
 };
+
 /**
  * 将 table 转换成 Excel 导出
- * @param {*} el table 的 dom 节点
+ * @param {*} el table 的根 dom 元素
  * @param {*} fileName 下载时文件名称
  */
 const exportExcelByTable = (el, fileName = 'example.xlsx') => {
   if (!el) {
-    throw new Error('没有获取到表格节点');
+    throw new Error('没有获取到表格的根 dom 元素');
   }
+  const options = { raw: true };
+  const workbook = XLSX.utils.table_to_book(el, options);
+
+  return XLSX.writeFile(workbook, fileName, { type: 'binary' });
 };
 
 export { analyseExcelToJson, exportExcelBySheets, generateExcelBySheet, exportExcelByDoubleDimensArray, exportExcelByTable };

@@ -237,13 +237,88 @@ const exportExcelByDoubleDimensArray = (workSheetData, fileName = 'example.xlsx'
 
 ### 页面表格导出 Excel
 
+将页面中的表格导出 Excel,应该是更加常见的情况。我们增加一个 Element-ui 的基础表格如下：
+
+![Element-ui table](https://raw.githubusercontent.com/ivestszheng/images-store/master/img/20220513092409.png)
+
+导出方法如下：
+
+```js
+/**
+ * 将 table 转换成 Excel 导出
+ * @param {*} el table 的根 dom 元素
+ * @param {*} fileName 下载时文件名称
+ */
+const exportExcelByTable = (el, fileName = 'example.xlsx') => {
+  if (!el) {
+    throw new Error('没有获取到表格的根 dom 元素');
+  }
+  const options = { raw: true };
+  const workbook = XLSX.utils.table_to_book(el, options);
+
+  return XLSX.writeFile(workbook, fileName, { type: 'binary' });
+};
+```
+
+页面中使用的话，通过`ref`拿到组件实例，将`$el`即`Vue 实例使用的根 DOM 元素`作为入参即可。
+
+```js
+exportExcelByTable(this.$refs.table.$el);
+```
+
 #### 踩坑
 
-由于
+只用简单表格作为示例的话，似乎一切都很完美。然而,我在使用`Element-ui table`做复杂表格时，踩了许多坑。
 
--
+1. 当且不仅当表的内容为`input`、`select`这类组件而非普通的数据时，导出的 Excel 内容为空
+2. 将表头合并后，导出 Excel 仍能看到被合并的表头那一列。
+3. 使用`fixed`属性固定列时，导出的 Excel 数据会重复。
 
-## Demo
+由于`XLSX.utils.table_to_book`这个方法实际上是将`dom`元素转化为`workbook`，这些坑都可以归类为获取到的 `dom`元素不对。
+
+为了更好理解，我先讲表头合并的问题。由于`Element-ui table`并没有提供表头合并的方法，我实际是通过修改`rowspan`和`colspan`来实现跨行跨列，再使用`display: none;`这个`css`属性将原先位置的元素隐藏。如下图所示：
+
+![table 表头合并](https://raw.githubusercontent.com/ivestszheng/images-store/master/img/20220513101029.png)
+
+图中“ID”的`colspan`为 2，“姓名”被我设置了`display: none;`。如果直接用我们之前表格导出 Excel 的方法，会发现虽然导出"ID"正确地变为了两列，但是“姓名”列并没有隐藏。由此可以得出结论：**`display: none;`并不会影响 Excel 的获取。**
+
+所以我在项目中对于被隐藏的表头会添加`cell-hide`这个`css`类来隐藏被合并的表头。
+
+```css
+.cell-hide {
+  display: none;
+}
+```
+
+然后在下载报表前，将合并的表头`dom`删除。
+
+```js
+document.querySelectorAll('.cell-hide').forEach((item) => {
+  item.parentNode.removeChild(item);
+});
+
+// 下面就可以正常下载了
+```
+
+同样利用**`display: none;`并不会影响 Excel 的获取。**这个特性可以解决问题 1，只需在`table-column`中通过插槽增加被隐藏的`dom`，就可以正常拿到值了。代码如下:
+
+```vue
+<el-table ref="table" :data="tableData" style="width: 600px; margin: 0 auto">
+      <el-table-column prop="date" label="日期" width="180"> </el-table-column>
+      <el-table-column prop="name" label="姓名" width="180"> </el-table-column>
+      <el-table-column prop="address" label="地址">
+        <template slot="header">
+          <span>地址</span>
+        </template>
+        <template slot-scope>
+          <el-input :value="123" />
+          <span style="display: none">123</span>
+        </template>
+      </el-table-column>
+    </el-table>
+```
+
+## Demo 地址
 
 以上代码全部放在**[GitHub: ivestszheng/xlsx-study](https://github.com/ivestszheng/xlsx-study)**中。
 
