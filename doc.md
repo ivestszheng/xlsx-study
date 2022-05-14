@@ -9,10 +9,6 @@
 
 > 导入与导出既可以前端做，也可以后端做。本文主要探讨前端通过`SheetJS/js-xlsx`这个库实现 Excel 导入、导出功能。
 
-## 基础知识
-
-新建一个 Excel 文档，这个文档就是`workbook`，而一个`workbook` 下可以有多个`sheet`。
-
 ## 技术选型
 
 市面上的报表类产品大抵可以分为以下两种：
@@ -26,6 +22,10 @@
 
 1. 社区版开源免费。也可选择性能增强的专业版，专业版提供样式和专业支持的附加功能。
 2. 有 30k star，维护频率高，笔者在写这篇文章时（5 月 10 日）该项目的上一次提交在 5 月 9 日。
+
+## 基础知识
+
+新建一个 Excel 文档，这个文档就是`workbook`，而一个`workbook` 下可以有多个`sheet`。
 
 ## SheetJS/js-xlsx
 
@@ -103,9 +103,7 @@ const analyseExcelToJson = (file) => {
 };
 ```
 
-这里先用`FileReader`将`file`转换成`ArrayBuffer`，再用`xlsx.read()`转换成`workbook`。由于`FileReader`是异步读取，所以这里用`promise`处理了一下。
-
-最终可以看到 Excel 处理后生成了这样的一个 Json，图片如下：
+这里先用`FileReader`将`file`转换成`ArrayBuffer`，再用`xlsx.read()`转换成`workbook`。由于`FileReader`是异步读取，所以用`promise`处理了一下。最终可以看到 Excel 处理后生成了这样的一个 Json，图片如下：
 
 ![Excel Demo](https://raw.githubusercontent.com/ivestszheng/images-store/master/img/20220512093952.png)
 ![ExcelToJson](https://raw.githubusercontent.com/ivestszheng/images-store/master/img/20220512094351.png)
@@ -172,7 +170,7 @@ const analyseExcelToJson = (file) => {
 
 ![多个 Sheet](https://raw.githubusercontent.com/ivestszheng/images-store/master/img/20220512132129.png)
 
-由于我用了`Promise.all`用来处理读取多个 Excel,所以外面又用数组包了一层。至此，简单的前端导入 Excel 数据已经全部实现了。
+由于我用了`Promise.all`用来处理读取多个 Excel，所以看到外面又用数组包了一层。至此，简单的前端导入 Excel 数据已经全部实现了。
 
 > 顺带一提，如果想要在页面中展示`sheet`，可以使用`XLSX.utils.sheet_to_html`。
 
@@ -268,13 +266,15 @@ exportExcelByTable(this.$refs.table.$el);
 
 #### 踩坑
 
-只用简单表格作为示例的话，似乎一切都很完美。然而,我在使用`Element-ui table`做复杂表格时，踩了许多坑。
+只用简单表格作为示例的话，似乎一切都很完美。然而,我在使用`Element-ui table`做复杂表格时，踩了一些坑。
 
 1. 当且不仅当表的内容为`input`、`select`这类组件而非普通的数据时，导出的 Excel 内容为空
 2. 将表头合并后，导出 Excel 仍能看到被合并的表头那一列。
 3. 使用`fixed`属性固定列时，导出的 Excel 数据会重复。
 
 由于`XLSX.utils.table_to_book`这个方法实际上是将`dom`元素转化为`workbook`，这些坑都可以归类为获取到的 `dom`元素不对。
+
+##### 表头合并
 
 为了更好理解，我先讲表头合并的问题。由于`Element-ui table`并没有提供表头合并的方法，我实际是通过修改`rowspan`和`colspan`来实现跨行跨列，再使用`display: none;`这个`css`属性将原先位置的元素隐藏。如下图所示：
 
@@ -300,7 +300,9 @@ document.querySelectorAll('.cell-hide').forEach((item) => {
 // 下面就可以正常下载了
 ```
 
-同样利用**`display: none;`并不会影响 Excel 的获取。**这个特性可以解决问题 1，只需在`table-column`中通过插槽增加被隐藏的`dom`，就可以正常拿到值了。代码如下:
+##### 内容为组件
+
+同样利用**`display: none;`并不会影响 Excel 的获取**的特性可以解决问题 1，只需在`table-column`中通过插槽增加被隐藏的`dom`，就可以正常拿到值了。代码如下:
 
 ```vue
 <el-table ref="table" :data="tableData" style="width: 600px; margin: 0 auto">
@@ -318,11 +320,49 @@ document.querySelectorAll('.cell-hide').forEach((item) => {
     </el-table>
 ```
 
+##### 使用`fixed`属性固定表格列
+
+先来看下，如果完全不处理，直接使用导出会是什么结果。以下面的 table2 为例，“日期”列被固定，导出的 excel 内容重复。
+
+```js
+exportExcelByTable(this.$refs.table2.$el);
+```
+
+![table fixed](https://raw.githubusercontent.com/ivestszheng/images-store/master/img/20220514100220.png)
+
+![table2 导出excel重复](https://raw.githubusercontent.com/ivestszheng/images-store/master/img/20220514100518.png)
+
+原因还是出在`dom`上，打印出 table 和 table2 的`dom`比较发现，table2 多了`css`类为`el-table__fixed`的这个节点。
+
+![1652494423(1)](<https://raw.githubusercontent.com/ivestszheng/images-store/master/img/1652494423(1).jpg>)
+
+我的处理方法是先克隆节点，确保后续操作不会影响页面中的 table2。通过遍历克隆出的新节点，找到`.el-table__fixed`这个节点并删除，最后返回新节点，发现可以输出正常的 Excel 文件。具体代码如下：
+
+```js
+ exportExcelByTable2() {
+   const newEl = this.removeFixedDom(this.$refs.table2.$el);
+   exportExcelByTable(newEl);
+ }
+
+ removeFixedDom(el) {
+   const newEl = el.cloneNode(true);
+
+   newEl.childNodes.forEach((node) => {
+     if (node.className === 'el-table__fixed') {
+       node.parentNode.removeChild(node);
+     }
+   });
+   return newEl;
+ }
+```
+
+## 总结
+
+`js-xlsx`这个库功能很强大且使用简单，足以应付一般的导出导出需求，如果有美化导出 Excel 样式的需求需要选择 pro 版本。开发的难度主要在于阅读提供用例不足且冗长的文档。使用时注意维护好`Workbook`和`Sheet`对象即可，LuckySheet、SpreadJS 也是类似的思路。
+
 ## Demo 地址
 
 以上代码全部放在**[GitHub: ivestszheng/xlsx-study](https://github.com/ivestszheng/xlsx-study)**中。
-
-## 总结
 
 ## 参考
 
