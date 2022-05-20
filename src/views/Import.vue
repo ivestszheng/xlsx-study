@@ -1,5 +1,5 @@
 <template>
-  <div class="demo">
+  <div class="import-excel">
     <el-upload
       ref="upload"
       class="upload-demo"
@@ -16,6 +16,7 @@
     >
       <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
       <el-button style="margin-left: 10px" size="small" type="success" @click="analyseUpload">读取数据</el-button>
+      <el-button style="margin-left: 10px" size="small" type="success" @click="exportExcel">导出文件</el-button>
       <div slot="tip" class="el-upload__tip">在根目录下有一个 Demo.xlsx</div>
     </el-upload>
     <div ref="container" class="container"></div>
@@ -23,7 +24,7 @@
 </template>
 
 <script>
-import { analyseExcelToJson } from '@/utils/xlsx';
+import { analyseExcelToJson, exportExcelBySheets, generateExcelBySheet } from '@/utils/xlsx';
 
 export default {
   name: 'ImportExcel',
@@ -37,11 +38,24 @@ export default {
     async analyseUpload() {
       if (!this.fileList.length) return;
       console.log('读取数据');
-
+      this.$refs.container.innerHTML = '';
       const promises = this.fileList.map(({ file }) => analyseExcelToJson(file));
       const result = await Promise.all(promises);
-      console.log(result);
-      this.$refs.container.innerHTML = JSON.stringify(this.fileList);
+      console.log(JSON.parse(JSON.stringify(result)));
+      this.result = result;
+      result.forEach((workbook) => {
+        workbook.forEach((sheet) => {
+          this.$refs.container.innerHTML += generateExcelBySheet(sheet);
+        });
+      });
+    },
+    exportExcel() {
+      if (!this.result.length) {
+        this.$message('请先读取数据');
+        return;
+      }
+      this.$message.success('单纯为了演示，这里只导出读取的第一个Excel哦');
+      exportExcelBySheets(this.result[0]);
     },
     // 文件列表移除文件时的钩子
     handleRemove(file) {
@@ -88,5 +102,13 @@ export default {
 <style lang="less" scoped>
 .container {
   margin-top: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+/deep/td {
+  border: thick double black;
 }
 </style>
